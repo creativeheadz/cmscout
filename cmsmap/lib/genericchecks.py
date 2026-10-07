@@ -37,7 +37,7 @@ class GenericChecks:
             sys.exit(1)
         if path.endswith("txt" or "php"):
             self.url = re.findall(
-                re.compile('(.+?)/[A-Za-z0-9]+\.txt|php'), self.url)[0]
+                re.compile(r'(.+?)/[A-Za-z0-9]+\.txt|php'), self.url)[0]
 
     # Check if directory is listing
     def DirectoryListing(self, relPath):
@@ -71,6 +71,8 @@ class GenericChecks:
     # Check Security Headers
     def HeadersCheck(self):
         requester.request(self.url, data=None)
+        if requester.response is None:
+            return
         msg = "Checking headers ..."
         report.verbose(msg)
         if requester.response.info().get('Server'):

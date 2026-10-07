@@ -1,5 +1,5 @@
-#!/usr/bin/python3
-import os, sys, time, datetime, signal, socket, argparse, urllib
+#!/usr/bin/env python3
+import os, sys, time, datetime, signal, socket, argparse, urllib.request
 
 from urllib.parse import urlparse
 from argparse import RawTextHelpFormatter
@@ -67,7 +67,7 @@ def main():
             argsothers.add_argument("-D", "--default", help="run CMSmap with default options", action="store_true", default=False)
             argsothers.add_argument("-U", "--update", help="use (C)MSmap, (P)lugins or (PC) for both", metavar= "")
             args = parser.parse_args()
-        except:
+        except Exception:
             sys.exit(1)
 
     else:

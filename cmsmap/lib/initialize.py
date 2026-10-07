@@ -14,6 +14,7 @@ class Initialize:
         self.FullScan = False
         self.NoExploitdb = False
         self.disableCleanURLs = False # https://www.drupal.org/docs/8/clean-urls-in-drupal-8
+        self.nosslcheck = False
         self.cmsmapPath = os.path.join(os.path.dirname(__file__), os.pardir)
         self.cmsmapPath = os.path.normpath(os.path.join(os.path.dirname(__file__), os.pardir))
         self.ospath = self.cmsmapPath
