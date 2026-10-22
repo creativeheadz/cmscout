@@ -24,7 +24,7 @@ class Initialize:
         self.forceCMSmapUpdate = False
         self.weakpsw = ['password', 'admin', '123456', 'Password1']
         self.config = configparser.ConfigParser()
-        self.config.read(os.path.join(self.cmsmapPath, "cmsmap.conf"))
+        self.config.read(os.path.join(self.cmsmapPath, "cmscout.conf"))
         self.ParseConfigFile()
 
     def ParseConfigFile(self):

@@ -7,7 +7,7 @@ Sources (all free, no API key):
     stays installed on real sites.
   Drupal modules - drupal.org api-d7 node.json, paginated.
 
-Writes refreshed lists to OUTDIR for review; never touches cmsmap/data
+Writes refreshed lists to OUTDIR for review; never touches cmscout/data
 in place. Joomla (JED has no bulk API - scrape job) and WPScan vuln
 enrichment (25 req/day free) are follow-ups.
 
@@ -80,10 +80,10 @@ def main(argv):
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
     Collected = [
-        ("wp_plugins", wp_slugs("plugins"), "cmsmap/data/wp_plugins.txt"),
-        ("wp_themes", wp_slugs("themes"), "cmsmap/data/wp_themes.txt"),
+        ("wp_plugins", wp_slugs("plugins"), "cmscout/data/wp_plugins.txt"),
+        ("wp_themes", wp_slugs("themes"), "cmscout/data/wp_themes.txt"),
         ("dru_modules", drupal_modules(args.drupal_pages),
-         "cmsmap/data/dru_plugins.txt"),
+         "cmscout/data/dru_plugins.txt"),
     ]
     for label, fresh, relpath in Collected:
         out = os.path.join(args.outdir, label + ".txt")

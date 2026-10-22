@@ -19,11 +19,11 @@ def main():
 
     if sys.argv[1:]:
         examples = """Examples:
-  cmsmap.py https://example.com
-  cmsmap.py https://example.com -f W -F --noedb -d
-  cmsmap.py https://example.com -i targets.txt -o output.txt
-  cmsmap.py https://example.com -u admin -p passwords.txt
-  cmsmap.py -k hashes.txt -w passwords.txt
+  cmscout.py https://example.com
+  cmscout.py https://example.com -f W -F --noedb -d
+  cmscout.py https://example.com -i targets.txt -o output.txt
+  cmscout.py https://example.com -u admin -p passwords.txt
+  cmscout.py -k hashes.txt -w passwords.txt
         """
         try:
             parser = argparse.ArgumentParser(

@@ -109,7 +109,7 @@ class CoreUpdate:
                 report.error(msg)
                 msg = "Clone ExploitDB repository: git clone https://github.com/offensive-security/exploit-database"
                 report.message(msg)
-                msg = "Then set the ExploitDB path \"edbpath\" in cmsmap.conf"
+                msg = "Then set the ExploitDB path \"edbpath\" in cmscout.conf"
                 report.message(msg)
                 msg = "ie: edbpath = /opt/exploitdb/"
                 report.message(msg)
@@ -135,7 +135,7 @@ class CoreUpdate:
             else:
                 msg = "ExploitDB APT path was not found"
                 report.error(msg)
-                msg = "Set the ExploitDB path \"edbpath\" in cmsmap.conf"
+                msg = "Set the ExploitDB path \"edbpath\" in cmscout.conf"
                 report.message(msg)
                 msg = "ie: edbpath = /usr/share/exploitdb/"
                 report.message(msg)
@@ -169,7 +169,7 @@ class CoreUpdate:
                             stdout=subprocess.PIPE,
                             shell=True)
                         p.communicate()
-                with open(os.path.join(initializer.cmsmapPath, "cmsmap.conf"),'wr') as self.configFile:
+                with open(os.path.join(initializer.cmsmapPath, "cmscout.conf"),'wr') as self.configFile:
                     initializer.config.set("exploitdb", "edbpath",os.path.normpath(self.edbpath))
                     initializer.config.set("exploitdb", "edbtype", "git")
                     initializer.config.write(self.configFile)
@@ -179,7 +179,7 @@ class CoreUpdate:
             else:
                 msg = "OK. Ensure that either the APT \"exploitdb\" package or ExploitDB GIT repository is installed"
                 report.message(msg)
-                msg = "Then set the \"edbtype\" and \"edbpath\" settings in cmsmap.conf"
+                msg = "Then set the \"edbtype\" and \"edbpath\" settings in cmscout.conf"
                 report.message(msg)
                 sys.exit(1)
 

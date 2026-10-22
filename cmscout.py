@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 import signal, sys
 
-from cmsmap.main import main
-from cmsmap.lib.report import report
+from cmscout.main import main
+from cmscout.lib.report import report
 
 def exit(signum, frame):
     signal.signal(signal.SIGINT, original_sigint)

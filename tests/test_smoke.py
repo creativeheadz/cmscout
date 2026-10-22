@@ -30,7 +30,7 @@ class TestImports(unittest.TestCase):
                     shutil.rmtree(os.path.join(dirpath, dirname))
         proc = subprocess.run(
             [sys.executable, "-W", "error::SyntaxWarning",
-             "-c", "import cmsmap.main"],
+             "-c", "import cmscout.main"],
             cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(proc.returncode, 0, proc.stderr)
 
@@ -38,8 +38,8 @@ class TestImports(unittest.TestCase):
         # lib modules must not depend on import side effects from main.
         proc = subprocess.run(
             [sys.executable, "-c",
-             "from cmsmap.lib.requester import requester;"
-             "from cmsmap.lib.threadscanner import ThreadScanner"],
+             "from cmscout.lib.requester import requester;"
+             "from cmscout.lib.threadscanner import ThreadScanner"],
             cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(proc.returncode, 0, proc.stderr)
 
@@ -47,14 +47,14 @@ class TestImports(unittest.TestCase):
 class TestCLI(unittest.TestCase):
     def test_help_exits_zero(self):
         proc = subprocess.run(
-            [sys.executable, "cmsmap.py", "--help"],
+            [sys.executable, "cmscout.py", "--help"],
             cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(proc.returncode, 0, proc.stderr)
         self.assertIn("CMSmap tool", proc.stdout)
 
     def test_no_args_exits_one(self):
         proc = subprocess.run(
-            [sys.executable, "cmsmap.py"],
+            [sys.executable, "cmscout.py"],
             cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(proc.returncode, 1)
         self.assertIn("No options provided", proc.stdout)
@@ -83,7 +83,7 @@ class _FixtureHandler(http.server.BaseHTTPRequestHandler):
 class TestRequester(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        from cmsmap.lib.requester import requester
+        from cmscout.lib.requester import requester
         cls.requester = requester
         cls.server = http.server.HTTPServer(("127.0.0.1", 0), _FixtureHandler)
         cls.port = cls.server.server_address[1]
@@ -122,7 +122,7 @@ class TestRequester(unittest.TestCase):
         # Transport failure must not look like a discovered plugin.
         import queue
         import time
-        from cmsmap.lib.threadscanner import ThreadScanner
+        from cmscout.lib.threadscanner import ThreadScanner
         found = []
         q = queue.Queue()
         t = ThreadScanner("http://127.0.0.1:1", "/wp-content/plugins/",
@@ -140,7 +140,7 @@ class TestRequester(unittest.TestCase):
         # Scan workers must not share one Requester: shared response
         # state made workers misread each other's results (missed finds).
         import queue
-        from cmsmap.lib.threadscanner import ThreadScanner
+        from cmscout.lib.threadscanner import ThreadScanner
         base = "http://127.0.0.1:%d" % self.port
         found = []
         q = queue.Queue()
@@ -166,7 +166,7 @@ class TestSearchsploit(unittest.TestCase):
 
     def test_modern_flag(self):
         # Issue #35: searchsploit renamed --colour to --disable-colour.
-        from cmsmap.lib import exploitdbsearch
+        from cmscout.lib import exploitdbsearch
         with tempfile.TemporaryDirectory() as tmp:
             self._stub(tmp, "Options:\n  --disable-colour  Disable colour\n")
             with mock.patch.dict(os.environ,
@@ -176,7 +176,7 @@ class TestSearchsploit(unittest.TestCase):
                 self.assertEqual(flag, " --disable-colour ")
 
     def test_legacy_flag(self):
-        from cmsmap.lib import exploitdbsearch
+        from cmscout.lib import exploitdbsearch
         with tempfile.TemporaryDirectory() as tmp:
             self._stub(tmp, "Options:\n  --colour  Enable colour\n")
             with mock.patch.dict(os.environ,
@@ -186,7 +186,7 @@ class TestSearchsploit(unittest.TestCase):
                 self.assertEqual(flag, " --colour ")
 
     def test_strip_ansi(self):
-        from cmsmap.lib.exploitdbsearch import strip_ansi
+        from cmscout.lib.exploitdbsearch import strip_ansi
         self.assertEqual(strip_ansi("\x1b[32m12345\x1b[0m"), "12345")
 
 

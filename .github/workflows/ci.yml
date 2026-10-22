@@ -13,7 +13,7 @@ jobs:
       - name: Show interpreter
         run: python3 --version
       - name: Fail on SyntaxWarnings
-        run: python3 -W error::SyntaxWarning -c "import cmsmap.main"
+        run: python3 -W error::SyntaxWarning -c "import cmscout.main"
       - name: Unit tests
         run: python3 -m unittest discover -s tests -v
 
@@ -22,6 +22,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Build image
-        run: docker build -t cmsmap:test .
+        run: docker build -t cmscout:test .
       - name: Smoke-test image
-        run: docker run --rm cmsmap:test --help
+        run: docker run --rm cmscout:test --help

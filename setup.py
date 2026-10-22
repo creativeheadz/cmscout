@@ -3,7 +3,7 @@
 from setuptools import setup, find_packages
 
 version = {}
-with open('cmsmap/version.py') as f:
+with open('cmscout/version.py') as f:
     exec(f.read(), version)
 
 setup(
@@ -17,7 +17,7 @@ setup(
     packages=find_packages(),
     package_data={'': ['*.conf', '*.txt', '*.zip']},
     entry_points={'console_scripts': [
-        'cmsmap = cmsmap.main:main',
+        'cmsmap = cmscout.main:main',
     ]},
     install_requires=[
         #'package>=version'
