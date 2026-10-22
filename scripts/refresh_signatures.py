@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Refresh CMSmap enumeration lists from upstream directories (prototype).
+"""Refresh CMScout enumeration lists from upstream directories (prototype).
 
 Sources (all free, no API key):
   WP plugins/themes - wordpress.org SVN root listings. These include
@@ -22,7 +22,7 @@ import sys
 import time
 import urllib.request
 
-UA = {"User-Agent": "CMSmap-signature-refresh/0.1 (research prototype)"}
+UA = {"User-Agent": "CMScout-signature-refresh/0.1 (research prototype)"}
 HREF = re.compile(r'<li><a href="([^"/]+)/">')
 
 

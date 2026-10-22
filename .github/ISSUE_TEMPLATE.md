@@ -1,5 +1,5 @@
 ## Issue Details
-CMSmap Version:  
+CMScout Version:  
 CMS Type:  
 CMS Version:  
 Plugin Name:  
@@ -11,4 +11,4 @@ Describe how to reproduce the issue
 
 ## Expected behaviour 
 
-Describe how CMSmap should have handled the issue  
+Describe how CMScout should have handled the issue  

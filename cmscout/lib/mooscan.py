@@ -98,17 +98,17 @@ class MooScan:
             msg = "Checking Moodle version ..."
             report.verbose(msg)
             FNULL = open(os.devnull, 'w')
-            p = subprocess.Popen("git -C "+ initializer.cmsmapPath+"/tmp/moodle checkout master -f", stdout=FNULL, stderr=FNULL, shell=True)
+            p = subprocess.Popen("git -C "+ initializer.cmscoutPath+"/tmp/moodle checkout master -f", stdout=FNULL, stderr=FNULL, shell=True)
             p.communicate()
             # Compare discovered default files with default files against each version of Moodle
             for mver in self.versions :
                 msg = "Checking version: "+ mver
                 report.verbose(msg)
                 matches = 0
-                p = subprocess.Popen("git -C "+ initializer.cmsmapPath+"/tmp/moodle checkout tags/"+mver, stdout=FNULL, stderr=FNULL, shell=True)
+                p = subprocess.Popen("git -C "+ initializer.cmscoutPath+"/tmp/moodle checkout tags/"+mver, stdout=FNULL, stderr=FNULL, shell=True)
                 p.communicate()
                 for defFile, defFileHash in defFileHashes.items() :
-                    filepath = initializer.cmsmapPath+"/tmp/moodle"+defFile
+                    filepath = initializer.cmscoutPath+"/tmp/moodle"+defFile
                     if os.path.isfile(filepath):
                         f = open(filepath, "rb")
                         hash_object = hashlib.sha256(f.read())
@@ -130,7 +130,7 @@ class MooScan:
                             report.info(msg)
                         break
 
-            p = subprocess.Popen("git -C "+ initializer.cmsmapPath+"/tmp/moodle checkout master -f", stdout=FNULL, stderr=FNULL, shell=True, universal_newlines=True)
+            p = subprocess.Popen("git -C "+ initializer.cmscoutPath+"/tmp/moodle checkout master -f", stdout=FNULL, stderr=FNULL, shell=True, universal_newlines=True)
             output, error = p.communicate()
 
     # Find directory listing in default directories and components directories

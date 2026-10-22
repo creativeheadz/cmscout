@@ -27,8 +27,8 @@ def main():
         """
         try:
             parser = argparse.ArgumentParser(
-                description="CMSmap tool v" + str(__version__) +
-                " - Simple CMS Scanner\nAuthor: Mike Manzotti",
+                description="CMScout tool v" + str(__version__) +
+                " - Simple CMS Scanner\nBased on CMSmap by Mike Manzotti",
                 formatter_class=RawTextHelpFormatter,
                 add_help=False,
                 epilog=examples)
@@ -64,8 +64,8 @@ def main():
             # Others Arguments
             argsothers.add_argument("-v", "--verbose", help="verbose mode (Default false)",action="store_true", default=False)
             argsothers.add_argument("-h", "--help", help="show this help message and exit",action="help")
-            argsothers.add_argument("-D", "--default", help="run CMSmap with default options", action="store_true", default=False)
-            argsothers.add_argument("-U", "--update", help="use (C)MSmap, (P)lugins or (PC) for both", metavar= "")
+            argsothers.add_argument("-D", "--default", help="run CMScout with default options", action="store_true", default=False)
+            argsothers.add_argument("-U", "--update", help="use (C)MScout, (P)lugins or (PC) for both", metavar= "")
             args = parser.parse_args()
         except Exception:
             sys.exit(1)
@@ -83,7 +83,7 @@ def main():
     initializer.wordlist = args.wordlist
     initializer.threads = int(args.threads)
     initializer.output = report.fn = args.output
-    initializer.forceCMSmapUpdate = args.update
+    initializer.forceCMScoutUpdate = args.update
     initializer.FullScan = args.fullscan
     initializer.NoExploitdb = args.noedb
     initializer.disableCleanURLs = args.nocleanurls
@@ -108,8 +108,8 @@ def main():
     updater.UpdateExploitDB()
     updater.CheckLocalFiles()
 
-    if initializer.forceCMSmapUpdate:
-        updater.forceCMSmapUpdate()
+    if initializer.forceCMScoutUpdate:
+        updater.forceCMScoutUpdate()
     elif initializer.BruteForcingAttack:
         if scanner.file is not None:
             targets = [line.strip() for line in open(scanner.file)]

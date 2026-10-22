@@ -2,7 +2,7 @@
 """Regression tests for the Python 3 revival batch.
 
 Run from the repo root:  python3 -m unittest discover -s tests
-Stdlib only, like the rest of CMSmap.
+Stdlib only, like the rest of CMScout.
 """
 import http.server
 import os
@@ -50,7 +50,7 @@ class TestCLI(unittest.TestCase):
             [sys.executable, "cmscout.py", "--help"],
             cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(proc.returncode, 0, proc.stderr)
-        self.assertIn("CMSmap tool", proc.stdout)
+        self.assertIn("CMScout tool", proc.stdout)
 
     def test_no_args_exits_one(self):
         proc = subprocess.run(
@@ -58,6 +58,16 @@ class TestCLI(unittest.TestCase):
             cwd=ROOT, capture_output=True, text=True)
         self.assertEqual(proc.returncode, 1)
         self.assertIn("No options provided", proc.stdout)
+
+    def test_old_cmsmap_name_still_runs(self):
+        # CMSmap became CMScout; command lines written for the old name
+        # must keep working.
+        proc = subprocess.run(
+            [sys.executable, "cmsmap.py", "--help"],
+            cwd=ROOT, capture_output=True, text=True)
+        self.assertEqual(proc.returncode, 0, proc.stderr)
+        self.assertIn("CMScout tool", proc.stdout)
+        self.assertIn("cmsmap.py is now cmscout.py", proc.stderr)
 
 
 class _FixtureHandler(http.server.BaseHTTPRequestHandler):

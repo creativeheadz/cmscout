@@ -7,7 +7,7 @@ from cmscout.lib.report import report
 def exit(signum, frame):
     signal.signal(signal.SIGINT, original_sigint)
     try:
-        msg = "Interrupt caught. CMSmap paused. Do you really want to exit?"
+        msg = "Interrupt caught. CMScout paused. Do you really want to exit?"
         report.error(msg)
         if input("[y/N]: ").lower().startswith('y'):
             msg = "Bye! Quitting.. "

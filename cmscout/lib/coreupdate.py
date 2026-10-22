@@ -10,7 +10,7 @@ class CoreUpdate:
     def __init__(self):
         self.edbpath = initializer.edbpath
         self.edbtype = initializer.edbtype
-        self.cmsmapPath = initializer.cmsmapPath
+        self.cmscoutPath = initializer.cmscoutPath
         self.wp_plugins = initializer.wp_plugins
         self.wp_plugins_small = initializer.wp_plugins_small
         self.wp_themes_small = initializer.wp_themes_small
@@ -25,49 +25,49 @@ class CoreUpdate:
         self.ospath = initializer.ospath
 
     # Force update of plugins from the local exploit-db, fetch the CMSs versions from remote Git
-    # and run git pull from CMSmap git repo
-    def forceCMSmapUpdate(self):
-        if initializer.forceCMSmapUpdate == 'P':
+    # and run git pull from CMScout git repo
+    def forceCMScoutUpdate(self):
+        if initializer.forceCMScoutUpdate == 'P':
             self.UpdateLocalPlugins()
             self.UpdateCMSVersions()
             self.UpdateDefaultFiles()
-        elif initializer.forceCMSmapUpdate == 'C':
-            self.UpdateCMSmap()
-        elif initializer.forceCMSmapUpdate == 'PC':
-            self.UpdateCMSmap()
+        elif initializer.forceCMScoutUpdate == 'C':
+            self.UpdateCMScout()
+        elif initializer.forceCMScoutUpdate == 'PC':
+            self.UpdateCMScout()
             self.UpdateCMSVersions()
             self.UpdateLocalPlugins()
             self.UpdateDefaultFiles()
         else:
-            msg = "Not Valid Option Provided. Use (C)MSmap, (P)lugins or (PC) for both"
+            msg = "Not Valid Option Provided. Use (C)MScout, (P)lugins or (PC) for both"
             report.message(msg)
             msg = "Example: " + os.path.basename(sys.argv[0]) + " -U PC"
             report.message(msg)
         self.SortUniqueFile()
         sys.exit(1)
 
-    # Run git pull from the CMSmap git repo
-    def UpdateCMSmap(self):
+    # Run git pull from the CMScout git repo
+    def UpdateCMScout(self):
         # Ensure that with Git there are no issue for updating the plugin list
         success = False
         if not self.ospath + ".git":
-            msg = "Git Repository Not Found. Please download the latest version of CMSmap from GitHub repository"
+            msg = "Git Repository Not Found. Please download the latest version of CMScout from GitHub repository"
             report.error(msg)
-            msg = "Example: git clone https://github.com/Dionach/cmsmap"
+            msg = "Example: git clone https://github.com/creativeheadz/cmscout"
             report.error(msg)
         else:
-            msg = "Updating CMSmap to the latest version from GitHub repository... "
+            msg = "Updating CMScout to the latest version from GitHub repository... "
             report.message(msg)
             os.chdir(self.ospath)
             process = os.system("git pull")
             if process == 0: success = True
         if success:
-            msg = "CMSmap is now updated to the latest version!"
+            msg = "CMScout is now updated to the latest version!"
             report.message(msg)
         else:
-            msg = " Updated could not be completed. Please download the latest version of CMSmap from GitHub repository"
+            msg = " Updated could not be completed. Please download the latest version of CMScout from GitHub repository"
             report.error(msg)
-            msg = " Example: git clone https://github.com/Dionach/cmsmap"
+            msg = " Example: git clone https://github.com/creativeheadz/cmscout"
             report.error(msg)
 
     # Run sort-uniq on the plugins files
@@ -94,7 +94,7 @@ class CoreUpdate:
                 p = subprocess.Popen("git -C " + self.edbpath + " status -uno", stdout=subprocess.PIPE,shell=True, universal_newlines=True)
                 output, error = p.communicate()
                 if re.search('behind', output):
-                    msg = "ExploitDB and CMSmap plugins are not updated to the latest version"
+                    msg = "ExploitDB and CMScout plugins are not updated to the latest version"
                     report.message(msg)
                     msg = "Would you like to update it?"
                     report.message(msg)
@@ -122,7 +122,7 @@ class CoreUpdate:
                     shell=True, universal_newlines=True)
                 output, error = p.communicate()
                 if re.search('Inst exploitdb', output):
-                    msg = "ExploitDB and CMSmap plugins are not updated to the latest version"
+                    msg = "ExploitDB and CMScout plugins are not updated to the latest version"
                     report.message(msg)
                     msg = "Would you like to update it?"
                     report.message(msg)
@@ -169,7 +169,7 @@ class CoreUpdate:
                             stdout=subprocess.PIPE,
                             shell=True)
                         p.communicate()
-                with open(os.path.join(initializer.cmsmapPath, "cmscout.conf"),'wr') as self.configFile:
+                with open(os.path.join(initializer.cmscoutPath, "cmscout.conf"),'wr') as self.configFile:
                     initializer.config.set("exploitdb", "edbpath",os.path.normpath(self.edbpath))
                     initializer.config.set("exploitdb", "edbtype", "git")
                     initializer.config.write(self.configFile)
@@ -193,7 +193,7 @@ class CoreUpdate:
         for cms_type, cms_file, sorted_versions in local_versions :
             msg = "Updating "+cms_type+" versions"
             report.message(msg)
-            p = subprocess.Popen("git -C "+self.cmsmapPath+"/tmp/"+cms_type+" "+sorted_versions,stdout=subprocess.PIPE,shell=True, universal_newlines=True)
+            p = subprocess.Popen("git -C "+self.cmscoutPath+"/tmp/"+cms_type+" "+sorted_versions,stdout=subprocess.PIPE,shell=True, universal_newlines=True)
             output, error = p.communicate()
             f = open(cms_file, "w")
             f.write(output)
@@ -257,21 +257,21 @@ class CoreUpdate:
                     'drupal': 'https://github.com/drupal/drupal',
                     'moodle':'https://github.com/moodle/moodle'}
         for repo_key , repo_value in git_repos.items() :
-            if not os.path.exists(self.cmsmapPath + "/tmp/" + repo_key + "/.git"):
+            if not os.path.exists(self.cmscoutPath + "/tmp/" + repo_key + "/.git"):
                 msg = repo_key +" git repo has not been found. Cloning..."
                 report.message(msg)
-                p = subprocess.Popen("git clone "+repo_value+" " + self.cmsmapPath+"/tmp/"+repo_key,
+                p = subprocess.Popen("git clone "+repo_value+" " + self.cmscoutPath+"/tmp/"+repo_key,
                     stdout=subprocess.PIPE,
                     shell=True, universal_newlines=True)
                 p.communicate()
             else:
-                p = subprocess.Popen("git -C " + self.cmsmapPath + "/tmp/"+repo_key+" remote update", stdout=subprocess.PIPE, shell=True)
+                p = subprocess.Popen("git -C " + self.cmscoutPath + "/tmp/"+repo_key+" remote update", stdout=subprocess.PIPE, shell=True)
                 p.communicate()
-                p = subprocess.Popen("git -C " + self.cmsmapPath + "/tmp/"+repo_key+" status -uno", stdout=subprocess.PIPE, shell=True, 
+                p = subprocess.Popen("git -C " + self.cmscoutPath + "/tmp/"+repo_key+" status -uno", stdout=subprocess.PIPE, shell=True, 
                                      universal_newlines=True)
                 output, error = p.communicate()
                 if re.search('behind', output):
-                    process = os.system("git -C " + self.cmsmapPath + "/tmp/"+repo_key+" pull")        
+                    process = os.system("git -C " + self.cmscoutPath + "/tmp/"+repo_key+" pull")        
                 
 
     # Update default files and folder from the local GIT repos of CMSs
@@ -283,8 +283,8 @@ class CoreUpdate:
         for cms_type,defaultFiles,defaultFolders in default_files :
             msg = "Updating "+cms_type+" default files"
             report.message(msg)
-            p = subprocess.Popen("find "+self.cmsmapPath+
-                                 "/tmp/"+cms_type+" -type f -name '*.txt' -o -name '*.html' -o -name '*.sql'| sed 's|"+self.cmsmapPath+
+            p = subprocess.Popen("find "+self.cmscoutPath+
+                                 "/tmp/"+cms_type+" -type f -name '*.txt' -o -name '*.html' -o -name '*.sql'| sed 's|"+self.cmscoutPath+
                                  "/tmp/"+cms_type+"||g'",stdout=subprocess.PIPE,shell=True, universal_newlines=True)
             output, error = p.communicate()
             f = open(defaultFiles, "a")
@@ -293,8 +293,8 @@ class CoreUpdate:
 
             msg = "Updating "+cms_type+" default folders"
             report.message(msg)
-            p = subprocess.Popen("find "+self.cmsmapPath+
-                                 "/tmp/"+cms_type+" -maxdepth 2 -type d | sed 's|"+self.cmsmapPath+
+            p = subprocess.Popen("find "+self.cmscoutPath+
+                                 "/tmp/"+cms_type+" -maxdepth 2 -type d | sed 's|"+self.cmscoutPath+
                                  "/tmp/"+cms_type+"||g'",stdout=subprocess.PIPE,shell=True, universal_newlines=True)
             output, error = p.communicate()
             f = open(defaultFolders, "a")

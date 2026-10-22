@@ -112,13 +112,13 @@ class Scanner:
             if self.force is None:
                 msg = "CMS detection failed :("
                 report.error(msg)
-                msg = "Use -f to force CMSmap to scan (W)ordpress, (J)oomla or (D)rupal"
+                msg = "Use -f to force CMScout to scan (W)ordpress, (J)oomla or (D)rupal"
                 report.error(msg)
                 sys.exit(1)
             else:
                 self.ForceCMSType()
         else:
-            msg = "CMSmap forced to scan: " + self.force
+            msg = "CMScout forced to scan: " + self.force
             report.verbose(msg)
 
 scanner = Scanner()
